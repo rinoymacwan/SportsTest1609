@@ -36,7 +36,7 @@
             <th class=@TempData["time"]>
                 Time
             </th>
-            <th>
+            <th  class=@TempData["dist"]>
                 Fitness Rating
             </th>
         </tr>
@@ -54,7 +54,7 @@
                 <td class=@TempData["time"]>
                     @Html.DisplayFor(modelItem => item.Time)
                 </td>
-                <td>
+                <td class=@TempData["dist"]>
                     @Html.DisplayFor(modelItem => item.FitnessRating)
                 </td>
                 <td>

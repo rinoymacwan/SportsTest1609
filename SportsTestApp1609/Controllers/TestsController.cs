@@ -52,6 +52,7 @@ namespace SportsTestApp1609.Controllers
             else
                 TempData["dist"] = "hidden";
 
+            
             var details = await _context.UserTestMapping.Where(m => m.TId == test.Id).Include(x => x.User).ToListAsync();
             TempData["TId"] = test.Id;
             var model = new TestDetails(test, details);

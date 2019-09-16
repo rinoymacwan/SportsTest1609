@@ -48,8 +48,9 @@ namespace SportsTestApp1609.Controllers
         // GET: UserTestMappings/Create
         public IActionResult Create()
         {
-            ViewData["TId"] = new SelectList(_context.Test, "Id", "Id");
-            ViewData["UId"] = new SelectList(_context.User, "Id", "Id");
+            ViewData["TId"] = new SelectList(_context.Test, "Id", "Id", TempData["TId"]);
+            ViewData["UId"] = new SelectList(_context.User, "Id", "Name");
+
             return View();
         }
 
@@ -83,7 +84,7 @@ namespace SportsTestApp1609.Controllers
                 return RedirectToAction("Details", "Tests", new { Id = userTestMapping.TId });
             }
             ViewData["TId"] = new SelectList(_context.Test, "Id", "Id", userTestMapping.TId);
-            ViewData["UId"] = new SelectList(_context.User, "Id", "Id", userTestMapping.UId);
+            ViewData["UId"] = new SelectList(_context.User, "Id", "Name", userTestMapping.UId);
             return View(userTestMapping);
         }
 
@@ -96,12 +97,23 @@ namespace SportsTestApp1609.Controllers
             }
 
             var userTestMapping = await _context.UserTestMapping.FindAsync(id);
+            var test = await _context.Test.FindAsync(userTestMapping.TId);
+            if ( test.Type== "Coopertest")
+            {
+                TempData["time"] = "hidden";
+                TempData["dist"] = "visible";
+            }
+            else
+            {
+                TempData["time"] = "visible";
+                TempData["dist"] = "hidden";
+            }
             if (userTestMapping == null)
             {
                 return NotFound();
             }
             ViewData["TId"] = new SelectList(_context.Test, "Id", "Id", userTestMapping.TId);
-            ViewData["UId"] = new SelectList(_context.User, "Id", "Id", userTestMapping.UId);
+            ViewData["UId"] = new SelectList(_context.User, "Id", "Name", userTestMapping.UId);
             return View(userTestMapping);
         }
 
@@ -116,7 +128,22 @@ namespace SportsTestApp1609.Controllers
             {
                 return NotFound();
             }
-
+            if (userTestMapping.Distance <= 1000)
+            {
+                userTestMapping.FitnessRating = "Below Average";
+            }
+            else if (userTestMapping.Distance > 1000 && userTestMapping.Distance <= 2000)
+            {
+                userTestMapping.FitnessRating = "Average";
+            }
+            else if (userTestMapping.Distance > 2000 && userTestMapping.Distance <= 3500)
+            {
+                userTestMapping.FitnessRating = "Good";
+            }
+            else if (userTestMapping.Distance > 3500)
+            {
+                userTestMapping.FitnessRating = "Very good";
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -135,10 +162,10 @@ namespace SportsTestApp1609.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Tests", new { Id = userTestMapping.TId });
             }
             ViewData["TId"] = new SelectList(_context.Test, "Id", "Id", userTestMapping.TId);
-            ViewData["UId"] = new SelectList(_context.User, "Id", "Id", userTestMapping.UId);
+            ViewData["UId"] = new SelectList(_context.User, "Id", "Name", userTestMapping.UId);
             return View(userTestMapping);
         }
 
@@ -154,6 +181,16 @@ namespace SportsTestApp1609.Controllers
                 .Include(u => u.Test)
                 .Include(u => u.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            if (userTestMapping.Test.Type == "Coopertest")
+            {
+                TempData["time"] = "hidden";
+                TempData["dist"] = "visible";
+            }
+            else
+            {
+                TempData["time"] = "visible";
+                TempData["dist"] = "hidden";
+            }
             if (userTestMapping == null)
             {
                 return NotFound();
