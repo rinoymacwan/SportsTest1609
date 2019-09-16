@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using SportsTestApp1609.Models;
 
 namespace SportsTestApp1609
 {
@@ -33,6 +35,9 @@ namespace SportsTestApp1609
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddDbContext<SportsTestApp1609Context>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("SportsTestApp1609Context")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +61,7 @@ namespace SportsTestApp1609
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Tests}/{action=Index}/{id?}");
             });
         }
     }
