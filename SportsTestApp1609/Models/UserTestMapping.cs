@@ -11,6 +11,7 @@ namespace SportsTestApp1609.Models
         public int Id { get; set; }
         public int Distance { get; set; }
         public int Time { get; set; }
+        public string FitnessRating { get; set; }
 
         public int TId { get; set; }
         [ForeignKey("TId")]

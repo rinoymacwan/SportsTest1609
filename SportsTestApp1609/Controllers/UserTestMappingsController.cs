@@ -58,13 +58,29 @@ namespace SportsTestApp1609.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Distance,Time,TId,UId")] UserTestMapping userTestMapping)
+        public async Task<IActionResult> Create([Bind("Id,Distance,Time,FitnessRating,TId,UId")] UserTestMapping userTestMapping)
         {
             if (ModelState.IsValid)
             {
+                if(userTestMapping.Distance<=1000)
+                {
+                    userTestMapping.FitnessRating = "Below Average";
+                }
+                else if(userTestMapping.Distance>1000 && userTestMapping.Distance<=2000)
+                {
+                    userTestMapping.FitnessRating = "Average";
+                }
+                else if (userTestMapping.Distance > 2000 && userTestMapping.Distance <= 3500)
+                {
+                    userTestMapping.FitnessRating = "Good";
+                }
+                else if (userTestMapping.Distance > 3500)
+                {
+                    userTestMapping.FitnessRating = "Very good";
+                }
                 _context.Add(userTestMapping);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Tests", new { Id = userTestMapping.TId });
             }
             ViewData["TId"] = new SelectList(_context.Test, "Id", "Id", userTestMapping.TId);
             ViewData["UId"] = new SelectList(_context.User, "Id", "Id", userTestMapping.UId);
@@ -94,7 +110,7 @@ namespace SportsTestApp1609.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Distance,Time,TId,UId")] UserTestMapping userTestMapping)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Distance,Time,FitnessRating,TId,UId")] UserTestMapping userTestMapping)
         {
             if (id != userTestMapping.Id)
             {

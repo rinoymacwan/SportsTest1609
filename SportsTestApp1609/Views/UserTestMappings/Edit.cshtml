@@ -24,6 +24,11 @@
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="FitnessRating" class="control-label"></label>
+                <input asp-for="FitnessRating" class="form-control" />
+                <span asp-validation-for="FitnessRating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="TId" class="control-label"></label>
                 <select asp-for="TId" class="form-control" asp-items="ViewBag.TId"></select>
                 <span asp-validation-for="TId" class="text-danger"></span>

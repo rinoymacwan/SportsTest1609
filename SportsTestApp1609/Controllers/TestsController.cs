@@ -21,7 +21,16 @@ namespace SportsTestApp1609.Controllers
         // GET: Tests
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Test.ToListAsync());
+            var tests = await _context.Test.OrderByDescending(d => d.Date).ToListAsync();
+
+            List<int> num = new List<int>();
+            foreach (var test in tests)
+            {
+                var lst = await _context.UserTestMapping.Where(x => x.TId == test.Id).ToListAsync();
+                num.Add(lst.Count);
+            }
+            ViewBag.Nums = num;
+            return View(tests);
         }
 
         // GET: Tests/Details/5
@@ -38,8 +47,15 @@ namespace SportsTestApp1609.Controllers
             {
                 return NotFound();
             }
+            if (test.Type == "Coopertest")
+                TempData["time"] = "hidden";
+            else
+                TempData["dist"] = "hidden";
 
-            return View(test);
+            var details = await _context.UserTestMapping.Where(m => m.TId == test.Id).Include(x => x.User).ToListAsync();
+            TempData["TId"] = test.Id;
+            var model = new TestDetails(test, details);
+            return View(model);
         }
 
         // GET: Tests/Create

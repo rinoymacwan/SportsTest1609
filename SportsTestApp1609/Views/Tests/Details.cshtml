@@ -1,4 +1,4 @@
-﻿@model SportsTestApp1609.Models.Test
+﻿@model SportsTestApp1609.Models.TestDetails
 
 @{
     ViewData["Title"] = "Details";
@@ -11,20 +11,69 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Type)
+            @Html.DisplayNameFor(model => model.CurrentTest.Type)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Type)
+            @Html.DisplayFor(model => model.CurrentTest.Type)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Date)
+            @Html.DisplayNameFor(model => model.CurrentTest.Date)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Date)
+            @Html.DisplayFor(model => model.CurrentTest.Date)
         </dd>
     </dl>
 </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                User
+            </th>
+            <th class=@TempData["dist"]>
+                Distance
+            </th>
+            <th class=@TempData["time"]>
+                Time
+            </th>
+            <th>
+                Fitness Rating
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CurrentUserTestMapping)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Name)
+                </td>
+                <td class=@TempData["dist"]>
+                    @Html.DisplayFor(modelItem => item.Distance)
+                </td>
+                <td class=@TempData["time"]>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FitnessRating)
+                </td>
+                <td>
+                    @{
+                        TempData["id"] = item.Id;
+                        TempData["type"] = Model.CurrentTest.Type;
+                    }
+                    <a asp-controller="UserTestMappings" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-controller="UserTestMappings" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-controller="UserTestMappings" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-controller="UserTestMappings" asp-action="Create">Add Athlete</a> |
+    <a asp-action="Edit" asp-route-id="@Model.CurrentTest.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

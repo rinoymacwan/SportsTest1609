@@ -19,6 +19,9 @@
                 @Html.DisplayNameFor(model => model.Time)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.FitnessRating)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Test)
             </th>
             <th>
@@ -35,6 +38,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FitnessRating)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Test.Id)
