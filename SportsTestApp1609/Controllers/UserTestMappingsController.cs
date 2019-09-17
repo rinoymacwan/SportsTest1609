@@ -85,6 +85,8 @@ namespace SportsTestApp1609.Controllers
             }
             ViewData["TId"] = new SelectList(_context.Test, "Id", "Id", userTestMapping.TId);
             ViewData["UId"] = new SelectList(_context.User.Where(k => k.Type != "Coach"), "Id", "Name", userTestMapping.UId);
+            TempData["dist"]= "na";
+            TempData["time"]= "na";
             return View(userTestMapping);
         }
 
@@ -205,9 +207,10 @@ namespace SportsTestApp1609.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var userTestMapping = await _context.UserTestMapping.FindAsync(id);
+            var x = userTestMapping.TId;
             _context.UserTestMapping.Remove(userTestMapping);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Tests", new { Id = x});
         }
 
         private bool UserTestMappingExists(int id)

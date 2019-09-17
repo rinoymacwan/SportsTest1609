@@ -15,10 +15,12 @@
     if(Model.CurrentTest.Type=="Coopertest")
     {
         TempData["flag"] = "hidden";
+        TempData["flag1"] = "visible";
     }
     else
     {
         TempData["flag1"] = "hidden";
+        TempData["flag"] = "visible";
     }
 }
 <table class="table" style="width:50%;margin: 0 auto;">
@@ -65,7 +67,9 @@
         }
     </tbody>
 </table>
-
+<br />
+<p style="text-align: center;">Click on a player  to change data.</p>
+<br />
 <p style="text-align: center;">
     <a asp-controller="UserTestMappings" asp-action="Create" class="btn btn-default" style="padding: 10px 80px;">ADD NEW ATHLETE TO TEST</a>
 </p>

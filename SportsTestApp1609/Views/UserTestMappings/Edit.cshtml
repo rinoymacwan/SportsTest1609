@@ -44,6 +44,10 @@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
+            <p style="text-align: center;">
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-default" style="padding: 10px 70px;">DELETE ATHLETE FROM TEST</a>
+            </p>
+
             <div>
                 <a asp-controller="Tests" asp-action="Details" asp-route-id=@Model.TId>Back to List</a>
             </div>
