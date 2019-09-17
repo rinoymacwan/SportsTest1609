@@ -21,7 +21,7 @@ namespace SportsTestApp1609.Controllers
         // GET: UserTestMappings
         public async Task<IActionResult> Index()
         {
-            var sportsTestApp1609Context = _context.UserTestMapping.Include(u => u.Test).Include(u => u.User);
+            var sportsTestApp1609Context = _context.UserTestMapping.Include(u => u.Test).Include(u => u.User).Where(k => k.User.Type!="Coach");
             return View(await sportsTestApp1609Context.ToListAsync());
         }
 
@@ -49,7 +49,7 @@ namespace SportsTestApp1609.Controllers
         public IActionResult Create()
         {
             ViewData["TId"] = new SelectList(_context.Test, "Id", "Id", TempData["TId"]);
-            ViewData["UId"] = new SelectList(_context.User, "Id", "Name");
+            ViewData["UId"] = new SelectList(_context.User.Where(k => k.Type != "Coach"), "Id", "Name");
 
             return View();
         }
@@ -84,7 +84,7 @@ namespace SportsTestApp1609.Controllers
                 return RedirectToAction("Details", "Tests", new { Id = userTestMapping.TId });
             }
             ViewData["TId"] = new SelectList(_context.Test, "Id", "Id", userTestMapping.TId);
-            ViewData["UId"] = new SelectList(_context.User, "Id", "Name", userTestMapping.UId);
+            ViewData["UId"] = new SelectList(_context.User.Where(k => k.Type != "Coach"), "Id", "Name", userTestMapping.UId);
             return View(userTestMapping);
         }
 
@@ -113,7 +113,7 @@ namespace SportsTestApp1609.Controllers
                 return NotFound();
             }
             ViewData["TId"] = new SelectList(_context.Test, "Id", "Id", userTestMapping.TId);
-            ViewData["UId"] = new SelectList(_context.User, "Id", "Name", userTestMapping.UId);
+            ViewData["UId"] = new SelectList(_context.User.Where(k => k.Type != "Coach"), "Id", "Name", userTestMapping.UId);
             return View(userTestMapping);
         }
 
@@ -165,7 +165,7 @@ namespace SportsTestApp1609.Controllers
                 return RedirectToAction("Details", "Tests", new { Id = userTestMapping.TId });
             }
             ViewData["TId"] = new SelectList(_context.Test, "Id", "Id", userTestMapping.TId);
-            ViewData["UId"] = new SelectList(_context.User, "Id", "Name", userTestMapping.UId);
+            ViewData["UId"] = new SelectList(_context.User.Where(k => k.Type != "Coach"), "Id", "Name", userTestMapping.UId);
             return View(userTestMapping);
         }
 

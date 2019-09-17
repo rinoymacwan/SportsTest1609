@@ -4,39 +4,36 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<br />
+<br />
+<h3 style="text-align:center">
+    @Html.DisplayFor(model => model.CurrentTest.Type)
+    D. @Html.DisplayFor(model => model.CurrentTest.Date)
+</h3>
 
-<div>
-    <h4>Test</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentTest.Type)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CurrentTest.Type)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentTest.Date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CurrentTest.Date)
-        </dd>
-    </dl>
-</div>
-<table class="table">
+@{
+    if(Model.CurrentTest.Type=="Coopertest")
+    {
+        TempData["flag"] = "hidden";
+    }
+    else
+    {
+        TempData["flag1"] = "hidden";
+    }
+}
+<table class="table" style="width:50%;margin: 0 auto;">
     <thead>
         <tr>
             <th>
                 User
             </th>
             <th class=@TempData["dist"]>
-                Distance
+                Distance(meter)
             </th>
             <th class=@TempData["time"]>
                 Time
             </th>
-            <th  class=@TempData["dist"]>
+            <th class=@TempData["dist"]>
                 Fitness Rating
             </th>
         </tr>
@@ -46,7 +43,9 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.User.Name)
+                    <a asp-controller="UserTestMappings" asp-action="Edit" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.User.Name)
+                    </a>
                 </td>
                 <td class=@TempData["dist"]>
                     @Html.DisplayFor(modelItem => item.Distance)
@@ -57,23 +56,29 @@
                 <td class=@TempData["dist"]>
                     @Html.DisplayFor(modelItem => item.FitnessRating)
                 </td>
-                <td>
-                    @{
-                        TempData["id"] = item.Id;
-                        TempData["type"] = Model.CurrentTest.Type;
-                    }
-                    <a asp-controller="UserTestMappings" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-controller="UserTestMappings" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-controller="UserTestMappings" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+                @*<td>
+                        <a asp-controller="UserTestMappings" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-controller="UserTestMappings" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-controller="UserTestMappings" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>*@
             </tr>
         }
     </tbody>
 </table>
 
+<p style="text-align: center;">
+    <a asp-controller="UserTestMappings" asp-action="Create" class="btn btn-default" style="padding: 10px 80px;">ADD NEW ATHLETE TO TEST</a>
+</p>
 
-<div>
-    <a asp-controller="UserTestMappings" asp-action="Create">Add Athlete</a> |
-    <a asp-action="Edit" asp-route-id="@Model.CurrentTest.Id">Edit</a> |
+<p style="text-align: center;">
+    <a asp-controller="Tests" asp-action="Delete" asp-route-id="@Model.CurrentTest.Id" class="btn btn-default" style="padding: 10px 130px;">DELETE TEST</a>
+</p>
+
+<p style="text-align: center;">
     <a asp-action="Index">Back to List</a>
-</div>
+</p>
+@*<div>
+        <a asp-controller="UserTestMappings" asp-action="Create">Add Athlete</a> |
+        <a asp-action="Edit" asp-route-id="@Model.CurrentTest.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>*@

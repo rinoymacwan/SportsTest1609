@@ -6,48 +6,55 @@
 
 }
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
+<br>
+<br>
+<p style="text-align: center;">
+    <a asp-action="Create" class="btn btn-default" style="padding: 10px 80px;">CREATE NEW TEST</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                Number of participants
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-
-        @foreach (var item in Model)
-        {
+<div>
+    <table class="table" style="width:50%;margin: 0 auto;">
+        <colgroup>
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 10%;">
+        </colgroup>
+        <thead>
             <tr>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @ViewBag.Nums[i++]
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+                <th class="col-sm-1">
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th class="col-sm-1">
+                    Number of participants
+                </th>
+                <th class="col-sm-1">
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td class="col-sm-1">
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td class="col-sm-1">
+                        @ViewBag.Nums[i++]
+                    </td>
+                    <td class="col-sm-1">
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </a>
+                    </td>
+                    @*<td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

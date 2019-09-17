@@ -4,42 +4,46 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h3 style="text-align:center" >ADD NEW ATHLETE TO TEST</h3>
 
-<h4>UserTestMapping</h4>
 <hr />
-<div class="row">
+<div class="row" style="width: 350px;
+    margin: 0 auto;">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" style="text-align: center; width: 350px;
+    margin: 0 auto;">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Distance" class="control-label"></label>
-                <input asp-for="Distance" class="form-control" onchange="this.fit()"/>
+                <label asp-for="UId" class="control-label">Name</label>
+                <select asp-for="UId" class="form-control" asp-items="ViewBag.UId"></select>
+            </div>
+            <div class="form-group " @TempData["flag1"]>
+                <label asp-for="Distance" class="control-label">Distance (meter)</label>
+                <input asp-for="Distance" class="form-control" />
                 <span asp-validation-for="Distance" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" @TempData["flag"]>
                 <label asp-for="Time" class="control-label"></label>
                 <input asp-for="Time" class="form-control" />
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>
             <div class="form-group" hidden>
                 <label asp-for="TId" class="control-label"></label>
-                <select asp-for="TId" class ="form-control" asp-items="ViewBag.TId"></select>
+                <select asp-for="TId" class="form-control" asp-items="ViewBag.TId"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="UId" class="control-label"></label>
-                <select asp-for="UId" class ="form-control" asp-items="ViewBag.UId"></select>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
+            <div>
+                <a asp-controller="Tests" asp-action="Index">Back to List</a>
+            </div>
         </form>
     </div>
+    
 </div>
 
-<div>
-    <a asp-controller="Tests" asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
